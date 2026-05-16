@@ -1,0 +1,44 @@
+#!/usr/bin/env bun
+
+// Aufruf:   bun scripts/generate-load.mts
+
+import { env } from 'node:process';
+import { setTimeout as sleep } from 'node:timers/promises';
+
+const SLEEP_IN_MILLIS = 50;
+
+// selbst-signiertes Zertifikat ignorieren
+// https://github.com/orgs/nodejs/discussions/44038
+env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+
+const options: RequestInit = {
+    headers: {
+        Accept: 'application/json',
+    },
+};
+
+for (let index = 1; ; index++) {
+    let id;
+    if (index % 2 === 0) {
+        id = 20;
+    } else if (index % 3 === 0) {
+        id = 30;
+    } else if (index % 5 === 0) {
+        id = 40;
+    } else if (index % 7 === 0) {
+        id = 50;
+    } else {
+        id = 1;
+    }
+    console.log(`id=${id}`);
+
+    const url = `https://localhost:3000/rest/${id}`;
+
+    // https://nodejs.org/dist/latest-v23.x/docs/api/globals.html#fetch
+    const response = await fetch(url, options); // oxlint-disable-line no-await-in-loop
+    if (response.status !== 200) {
+        console.error(`Fehler bei id=${id}`);
+    }
+
+    await sleep(SLEEP_IN_MILLIS); // oxlint-disable-line no-await-in-loop
+}

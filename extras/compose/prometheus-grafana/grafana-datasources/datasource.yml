@@ -1,0 +1,11 @@
+apiVersion: 1
+
+# https://grafana.com/docs/grafana/latest/administration/provisioning
+datasources:
+  - name: Prometheus
+    type: prometheus
+    # Anfragen an Prometheus erfolgen vom Dashboard im Webbrowser ueber den Grafana-Server als *Proxy* an den Server "kunde"
+    access: proxy
+    url: http://prometheus:9090 # DevSkim: ignore DS137138
+    # Default-Datenquelle fuer Grafana
+    isDefault: true

@@ -1,0 +1,19 @@
+global:
+  # How frequently to scrape ("kratzen") target
+  scrape_interval: 3s
+  #evaluation_interval: 1m
+
+# https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config
+# https://prometheus.io/docs/guides/tls-encryption
+scrape_configs:
+  - job_name: bun-hono
+    scheme: https
+    # https://prometheus.io/docs/prometheus/latest/configuration/configuration/#tls_config
+    tls_config:
+      ca_file: /etc/prometheus/certificate.crt
+      insecure_skip_verify: true
+    metrics_path: /prometheus
+    static_configs:
+      - targets: ["host.docker.internal:3000"]
+        labels:
+          application: fussballer

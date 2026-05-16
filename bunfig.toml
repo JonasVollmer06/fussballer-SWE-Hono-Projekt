@@ -1,0 +1,6 @@
+[install]
+# https://bun.com/docs/runtime/bunfig#install-cache
+exact = true
+# https://bun.com/docs/runtime/bunfig#install-minimumreleaseage
+# 1 Tag = 24 * 60 Minuten * 60 Sekunden
+minimumReleaseAge = 86400
