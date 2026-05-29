@@ -20,7 +20,7 @@ import {
     NotFoundError,
     VersionInvalidError,
     VersionOutdatedError,
-} from './buch/service/errors.mts';
+} from './fussballer/service/errors.mts';
 import {
     createProblemDetails,
     forbidden,
@@ -30,7 +30,7 @@ import {
 } from './problem-details.mts';
 import { type ZodError } from 'zod';
 import { router as authRouter } from './security/auth-router.mts';
-import { router as buchWriteRouter } from './buch/router/buch-write-router.mts';
+import { router as fussballerWriteRouter } from './fussballer/router/fussballer-write-router.mts';
 import { compress } from 'hono/compress';
 import { cors } from 'hono/cors';
 import { corsOptions } from './config/cors.mts';
@@ -38,13 +38,13 @@ import { createMiddleware } from 'hono/factory'; // oxlint-disable-line import/m
 import { router as devRouter } from './config/dev/dev-router.mts';
 import { env } from './config/env.mts';
 import { getLogger } from './logger/logger.mts';
-import { graphqlApp } from './buch/graphql/graphql-app.mts';
+import { graphqlApp } from './fussballer/graphql/graphql-app.mts';
 import { router as healthRouter } from './admin/health-router.mts';
 import { paths } from './config/paths.mts';
 import { router as prometheusRouter } from './monitoring/prometheus-router.mts';
 import { requestLogger } from './logger/request-logger.mts';
 import { responseTime } from './logger/response-time.mts';
-import { router } from './buch/router/buch-router.mts';
+import { router } from './fussballer/router/fussballer-router.mts';
 import { secureHeaders } from 'hono/secure-headers';
 import { showRoutes } from 'hono/dev';
 import { trackMetrics } from './monitoring/prometheus-metrics.mts';
@@ -87,7 +87,7 @@ if (logger.isLevelEnabled('debug')) {
 // R o u t e n
 // -----------------------------------------------------------------------------
 app.route(paths.rest, router);
-app.route(paths.rest, buchWriteRouter);
+app.route(paths.rest, fussballerWriteRouter);
 app.route(paths.health, healthRouter);
 app.route(paths.auth, authRouter);
 // Yoga baut eine Hono-App mit Basispfad "/graphql"

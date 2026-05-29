@@ -13,12 +13,12 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-import { BuchService } from './buch/service/buch-service.mts';
-import { BuchWriteService } from './buch/service/buch-write-service.mts';
+import { FussballerService } from './fussballer/service/fussballer-service.mts';
+import { FussballerWriteService } from './fussballer/service/fussballer-write-service.mts';
 import { DbPopulateService } from './config/dev/db-populate.mts';
 import { KeycloakService } from './security/keycloak-service.mts';
 
-const buchService = new BuchService();
+const fussballerService = new FussballerService();
 
 /**
  * Container mit Singletons zur Emulation von manueller DI (ähnlich wie ein
@@ -27,8 +27,8 @@ const buchService = new BuchService();
  * @author [Jürgen Zimmermann](mailto:Juergen.Zimmermann@h-ka.de)
  */
 export const container = {
-    buchService,
-    buchWriteService: new BuchWriteService(buchService),
+    fussballerService,
+    fussballerWriteService: new FussballerWriteService(fussballerService),
     keycloakService: new KeycloakService(),
     dbPopulateService: new DbPopulateService(),
 };
