@@ -1,0 +1,31 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  checks:
+    name: Tests, Oxlint und Oxfmt
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Repository auschecken
+        uses: actions/checkout@v4
+
+      - name: Bun installieren
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.3.14
+    
+      - name: Abhaengigkeiten installieren
+        run: bun install --frozen-lockfile
+
+      - name: Formatierung pruefen
+        run: bun run fmt:check
+
+      - name: Oxlint ausfuehren
+        run: bun run lint
+    
+      - name: Tests ausfuehren
+        run: bun run test
