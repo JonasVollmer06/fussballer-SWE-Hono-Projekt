@@ -1,4 +1,5 @@
 #!/usr/bin/env bun
+// oxlint-disable no-magic-numbers
 
 // Aufruf:   bun scripts/generate-load.mts
 

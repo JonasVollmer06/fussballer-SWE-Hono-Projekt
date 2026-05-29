@@ -322,6 +322,7 @@ export default defineConfig({
         'no-template-curly-in-string': 'error',
         'no-ternary': 'off',
         'no-throw-literal': 'error',
+        'no-undefined': 'off',
         'no-underscore-dangle': 'error',
         'no-unmodified-loop-condition': 'error',
         'no-unneeded-ternary': 'error',
