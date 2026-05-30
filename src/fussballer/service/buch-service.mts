@@ -11,6 +11,7 @@ import { NotFoundError }  from './errors.mts';
 import { prismaClient } from '../../config/prisma-client.mts';
 import { type Pageable } from './pageable.mts';
 import { type Suchparameter, suchparameterNamen} from './suchparameter.mts';
+import { type Slice } from './slice.mts';
 
 
 type FindByIdParams = {
@@ -69,5 +70,9 @@ export class FussballerService {
     async find(
         suchparameter: Suchparameter | null,
         pageable: Pageable,
-    ): 
+    ): Promise<Readonly<Slice<Readonly<FussballerMitAdresse>>>> {
+        if (suchparameter === null) {
+            return await this.#findAll(page)
+        }
+    }
 }
