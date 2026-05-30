@@ -10,6 +10,7 @@ import { type FussballerInclude } from '../../generated/prisma/models/Fussballer
 import { NotFoundError }  from './errors.mts';
 import { prismaClient } from '../../config/prisma-client.mts';
 import { type Pageable } from './pageable.mts';
+import { type Suchparameter, suchparameterNamen} from './suchparameter.mts';
 
 
 type FindByIdParams = {
@@ -68,5 +69,5 @@ export class FussballerService {
     async find(
         suchparameter: Suchparameter | null,
         pageable: Pageable,
-    )
+    ): 
 }
