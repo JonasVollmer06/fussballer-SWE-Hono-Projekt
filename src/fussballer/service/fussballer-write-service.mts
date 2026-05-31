@@ -67,4 +67,39 @@ export class FussballerWriteService {
         this.#logger.debug('create: fussballerDb.id=%s', fussballerDb?.id);
         return fussballerDb?.id ?? Number.NaN;
     }
+
+    async update({ id, fussballer, version }: UpdateParams) {
+        this.#logger.debug(
+            'update: id=%s, fussballer=%o, version=%s',
+            id,
+            fussballer,
+            version,
+        );
+
+        if (id === undefined) {
+            this.#logger.debug('update: Keine gueltige ID');
+            throw new NotFoundError(
+                `Es gibt keinen Fussballer mit der ID ${id}.`,
+            );
+        }
+
+        await this.#validateUpdate(id, version);
+
+        fussballer.version = { increment: 1 };
+
+        let fussballerUpdated: FussballerUpdated | undefined;
+        await prismaClient.$transaction(async (tx) => {
+            fussballerUpdated = await tx.fussballer.update({
+                data: fussballer,
+                where: { id },
+            });
+        });
+
+        this.#logger.debug(
+            'update: fussballerUpdated=%s',
+            JSON.stringify(fussballerUpdated),
+        );
+
+        return fussballerUpdated?.version ?? Number.NaN;
+    }
 }
