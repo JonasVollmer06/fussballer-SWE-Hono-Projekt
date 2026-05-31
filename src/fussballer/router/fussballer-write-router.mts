@@ -37,4 +37,26 @@ const fussballerDtoToFussballerCreateInput = (
         },
     );
 
-    
+    const fussballer: FussballerCreate = {
+        version: 0,
+        nachname: fussballerDTO.nachname,
+        nationalitaet: fussballerDTO.nationalitaet,
+        position: fussballerDTO.position ?? null,
+        geburtsdatum: fussballerDTO.geburtsdatum ?? null,
+        username: fussballerDTO.username,
+        adresse: {
+            create: {
+                plz: fussballerDTO.adresse.plz,
+                ort: fussballerDTO.adresse.ort,
+                bundesland: fussballerDTO.adresse.bundesland,
+            },
+        },
+        auszeichnungen: {
+            create: auszeichnungen ?? [],
+        },
+    };
+
+    return fussballer;
+};
+
+
