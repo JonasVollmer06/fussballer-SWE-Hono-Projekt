@@ -53,3 +53,24 @@ const setupTransactionMock = () => {
             } as unknown as Prisma.TransactionClient),
     );
 };
+
+const createFussballer = (): FussballerCreate => {
+    return {
+        version: 0,
+        nachname: 'Mueller',
+        nationalitaet: 'Deutsch',
+        position: PositionType.STUERMER,
+        geburtsdatum: new Date('2000-01-01'),
+        username: 'mueller',
+        adresse: {
+            create: {
+                plz: '76133',
+                ort: 'Karlsruhe',
+                bundesland: 'Baden-Wuerttemberg',
+            },
+        },
+        auszeichnungen: {
+            create: [],
+        },
+    };
+};
