@@ -87,3 +87,49 @@ const fussballerDtoToFussballerUpdate = (
         geburtsdatum: fussballerDTO.geburtsdatum ?? null,
     };
 };
+
+router.put('/:id', rolesRequired('admin', 'user'), async (c) => {
+    const { req } = c;
+    const id = req.param('id') ?? '-1';
+    logger.debug('put: id=%s', id);
+
+    const idNumber = Number.parseInt(id, 10);
+    if (Number.isNaN(idNumber)) {
+        return c.notFound();
+    }
+
+    const version = req.header('If-Match');
+    logger.debug('put: version=%s', version);
+
+    if (version === undefined) {
+        logger.debug('put: version ist undefined');
+        return createProblemDetails(
+            c,
+            preconditionRequired,
+            'Header "If-Match" ist erforderlich.',
+        );
+    }
+
+    const requestBody = await c.req.json();
+    logger.debug('put: requestBody=%o', requestBody);
+
+    const fussballerDTO = FussballerUpdateSchema.parse(requestBody);
+    logger.debug('put: fussballerDTO=%o', fussballerDTO);
+
+    const fussballer = fussballerDtoToFussballerUpdate(fussballerDTO);
+    const neueVersion = await fussballerWriteService.update({
+        id: idNumber,
+        fussballer,
+        version,
+    });
+
+    logger.debug('put: neueVersion=%s', neueVersion);
+
+    const headers = {
+        ETag: `"${neueVersion}"`,
+    };
+
+    return c.body(null, 204, headers);
+});
+
+//Löschen
