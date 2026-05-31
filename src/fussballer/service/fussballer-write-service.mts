@@ -156,4 +156,24 @@ export class FussballerWriteService {
         const body = `Der Fussballer <strong>${nachname}</strong> mit dem Username <strong>${username}</strong> ist angelegt.`;
         await sendmail({ subject, body });
     }
+
+    async #validateUpdate(id: number, versionStr: string) {
+        this.#logger.debug(
+            '#validateUpdate: id=%d, versionStr=%s',
+            id,
+            versionStr,
+        );
+
+        if (!FussballerWriteService.VERSION_PATTERN.test(versionStr)) {
+            throw new VersionInvalidError(versionStr);
+        }
+
+        const version = Number.parseInt(versionStr.slice(1, -1), 10);
+        const fussballerDb = await this.#readService.findById({ id });
+
+        if (version < fussballerDb.version) {
+            this.#logger.debug('#validateUpdate: versionDb=%d', version);
+            throw new VersionOutdatedError(version);
+        }
+    }
 }
