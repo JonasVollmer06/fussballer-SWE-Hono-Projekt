@@ -59,4 +59,21 @@ const fussballerDtoToFussballerCreateInput = (
     return fussballer;
 };
 
+router.post('/', rolesRequired('admin', 'user'), async (c) => {
+    const requestBody = await c.req.json();
+
+    const fussballerDTO = FussballerNeuSchema.parse(requestBody);
+    logger.debug('post: fussballerDTO=%o', fussballerDTO);
+
+    const fussballer =
+        fussballerDtoToFussballerCreateInput(fussballerDTO);
+    const id = await fussballerWriteService.create(fussballer);
+
+    const location = `${createBaseUrl(c.req)}/${id}`;
+    const { header, body } = c;
+    header('Location', location);
+    return body(null, 201);
+});
+
+//Ändern
 
