@@ -76,4 +76,14 @@ router.post('/', rolesRequired('admin', 'user'), async (c) => {
 });
 
 //Ändern
-
+const fussballerDtoToFussballerUpdate = (
+    fussballerDTO: FussballerUpdateType,
+): FussballerUpdate => {
+    return {
+        version: 0,
+        nachname: fussballerDTO.nachname,
+        nationalitaet: fussballerDTO.nationalitaet,
+        position: fussballerDTO.position ?? null,
+        geburtsdatum: fussballerDTO.geburtsdatum ?? null,
+    };
+};
