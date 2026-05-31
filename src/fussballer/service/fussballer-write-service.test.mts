@@ -99,3 +99,42 @@ const createFussballerMock = (
         auszeichnungen: [],
     };
 };
+
+describe('FussballerWriteService create', () => {
+    let service: FussballerWriteService;
+    let readService: FussballerService;
+
+    beforeEach(() => {
+        readService = new FussballerService();
+        service = new FussballerWriteService(readService);
+
+        createMock.mockReset();
+        countMock.mockReset();
+        transactionMock.mockReset();
+        sendmailMock.mockReset();
+
+        setupTransactionMock();
+    });
+
+    test('Neuer Fussballer', async () => {
+        // given
+        const idMock = 1;
+        const fussballer = createFussballer();
+        const fussballerTmp = createFussballerMock(fussballer, idMock);
+
+        // Username existiert noch nicht
+        countMock.mockResolvedValue(0);
+
+        // sendmail ist eine void-Funktion
+        sendmailMock.mockResolvedValue(null);
+
+        // when
+        const id = await service.create(fussballer);
+
+        // then
+        expect(id).toBe(idMock);
+        expect(countMock).toHaveBeenCalledOnce();
+        expect(createMock).toHaveBeenCalledOnce();
+        expect(sendmailMock).toHaveBeenCalledOnce();
+    });
+});
