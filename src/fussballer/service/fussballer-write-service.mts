@@ -42,4 +42,21 @@ export class FussballerWriteService {
     constructor(readService: FussballerService) {
         this.#readService = readService;
     }
+
+    async create(fussballer: FussballerCreate) {
+        this.#logger.debug('create: fussballer=%o', fussballer);
+        await this.#validateCreate(fussballer);
+
+        let fussballerDb: FussballerCreated | undefined;
+        await prismaClient.$transaction(async (tx) => {
+            fussballerDb = await tx.fussballer.create({
+                data: fussballer,
+                include: {
+                    adresse: true,
+                    auszeichnungen: true,
+                },
+            });
+        })
+
+    }
 }
