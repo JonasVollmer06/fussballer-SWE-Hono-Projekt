@@ -64,5 +64,7 @@ export class FussballerWriteService {
             username: fussballerDb?.username ?? 'N/A',
         });
 
+        this.#logger.debug('create: fussballerDb.id=%s', fussballerDb?.id);
+        return fussballerDb?.id ?? Number.NaN;
     }
 }
