@@ -1,4 +1,4 @@
-import { type FussballerFile, type Prisma } from '../../generated/prisma/client.ts';
+import { type Prisma } from '../../generated/prisma/client.ts';
 import {
     NotFoundError,
     UsernameExistsError,
@@ -29,9 +29,6 @@ export type UpdateParams = {
 
 type FussballerUpdated = Prisma.FussballerGetPayload<{}>;
 
-type FussballerFileCreate = Prisma.FussballerFileUncheckedCreateInput;
-export type FussballerFileCreated = Prisma.FussballerFileGetPayload<{}>;
-
 export class FussballerWriteService {
     private static readonly VERSION_PATTERN = /^"\d{1,3}"/u;
 
@@ -56,7 +53,7 @@ export class FussballerWriteService {
                     auszeichnungen: true,
                 },
             });
-        })
+        });
 
         await FussballerWriteService.#sendmail({
             id: fussballerDb?.id ?? 'N/A',
