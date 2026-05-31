@@ -58,5 +58,11 @@ export class FussballerWriteService {
             });
         })
 
+        await FussballerWriteService.#sendmail({
+            id: fussballerDb?.id ?? 'N/A',
+            nachname: fussballerDb?.nachname ?? 'N/A',
+            username: fussballerDb?.username ?? 'N/A',
+        });
+
     }
 }
