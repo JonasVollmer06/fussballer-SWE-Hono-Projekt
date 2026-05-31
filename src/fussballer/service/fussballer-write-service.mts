@@ -142,4 +142,18 @@ export class FussballerWriteService {
 
         this.#logger.debug('#validateCreate: ok');
     }
+
+    static async #sendmail({
+        id,
+        nachname,
+        username,
+    }: {
+        id: number | 'N/A';
+        nachname: string;
+        username: string;
+    }) {
+        const subject = `Neuer Fussballer ${id}`;
+        const body = `Der Fussballer <strong>${nachname}</strong> mit dem Username <strong>${username}</strong> ist angelegt.`;
+        await sendmail({ subject, body });
+    }
 }
