@@ -74,3 +74,28 @@ const createFussballer = (): FussballerCreate => {
         },
     };
 };
+
+const createFussballerMock = (
+    fussballer: FussballerCreate,
+    idMock: number,
+) => {
+    return {
+        id: idMock,
+        version: fussballer.version,
+        nachname: fussballer.nachname,
+        nationalitaet: fussballer.nationalitaet,
+        position: fussballer.position,
+        geburtsdatum: fussballer.geburtsdatum,
+        username: fussballer.username,
+        erzeugt: new Date(),
+        aktualisiert: new Date(),
+        adresse: {
+            id: 11,
+            plz: '76133',
+            ort: 'Karlsruhe',
+            bundesland: 'Baden-Wuerttemberg',
+            fussballerId: idMock,
+        },
+        auszeichnungen: [],
+    };
+};
