@@ -102,4 +102,44 @@ export class FussballerWriteService {
 
         return fussballerUpdated?.version ?? Number.NaN;
     }
+
+    async delete(id: number) {
+        this.#logger.debug('delete: id=%d', id);
+
+        const fussballer = await prismaClient.fussballer.findUnique({
+            where: { id },
+        });
+
+        if (fussballer === null) {
+            this.#logger.debug('delete: not found');
+            return false;
+        }
+
+        await prismaClient.$transaction(async (tx) => {
+            await tx.fussballer.delete({ where: { id } });
+        });
+
+        this.#logger.debug('delete: deleted');
+        return true;
+    }
+
+    async #validateCreate({
+        username,
+    }: Prisma.FussballerCreateInput): Promise<undefined> {
+        this.#logger.debug('#validateCreate: username=%s', username);
+
+        const anzahl = await prismaClient.fussballer.count({
+            where: { username },
+        });
+
+        if (anzahl > 0) {
+            this.#logger.debug(
+                '#validateCreate: username existiert: %s',
+                username,
+            );
+            throw new UsernameExistsError(username);
+        }
+
+        this.#logger.debug('#validateCreate: ok');
+    }
 }
