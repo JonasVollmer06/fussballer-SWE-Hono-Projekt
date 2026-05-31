@@ -44,7 +44,7 @@ model Fussballer {
   nationalitaet String
   position      PositionType?
   geburtsdatum  DateTime?      @db.Date
-  username      String
+  username      String         @unique
   erzeugt       DateTime       @default(now()) @db.Timestamp(6)
   aktualisiert  DateTime       @default(now()) @db.Timestamp(6) @updatedAt
   adresse       Adresse?
