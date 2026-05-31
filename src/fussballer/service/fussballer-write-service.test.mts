@@ -37,3 +37,19 @@ vi.mock(import('../../mail/sendmail.mts'), () => {
         sendmail: sendmailMock,
     };
 });
+
+const setupTransactionMock = () => {
+    transactionMock.mockImplementation(
+        async (
+            transactionBody: (
+                tx: Prisma.TransactionClient,
+            ) => Promise<unknown>,
+        ) =>
+            await transactionBody({
+                fussballer: {
+                    create: createMock,
+                    count: countMock,
+                },
+            } as unknown as Prisma.TransactionClient),
+    );
+};
