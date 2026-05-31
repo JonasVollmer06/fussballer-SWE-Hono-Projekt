@@ -33,3 +33,15 @@ export class VersionOutdatedError extends Error {
         this.version = version;
     }
 }
+
+/**
+ * Error-Klasse fuer ein bereits existierenden Username.
+ */
+export class UsernameExistsError extends Error {
+    readonly username: string | undefined;
+
+    constructor(username: string | undefined) {
+        super(`Der Username ${username} existiert bereits.`);
+        this.username = username;
+    }
+}
