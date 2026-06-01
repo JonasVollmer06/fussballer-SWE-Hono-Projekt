@@ -25,7 +25,7 @@ export const createPageable = ({ number, size }: PageableProps): Pageable => {
     if (Number.isNaN(numberFloat) || !Number.isInteger(numberFloat)) {
         numberInt = DEFAULT_PAGE_NUMBER;
     } else {
-        numberInt = numberFloat -1;
+        numberInt = numberFloat - 1;
         if (numberInt < 0) {
             numberInt = DEFAULT_PAGE_NUMBER;
         }

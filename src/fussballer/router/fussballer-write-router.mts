@@ -65,8 +65,7 @@ router.post('/', rolesRequired('admin', 'user'), async (c) => {
     const fussballerDTO = FussballerNeuSchema.parse(requestBody);
     logger.debug('post: fussballerDTO=%o', fussballerDTO);
 
-    const fussballer =
-        fussballerDtoToFussballerCreateInput(fussballerDTO);
+    const fussballer = fussballerDtoToFussballerCreateInput(fussballerDTO);
     const id = await fussballerWriteService.create(fussballer);
 
     const location = `${createBaseUrl(c.req)}/${id}`;

@@ -6,14 +6,9 @@
 import { type PositionType } from '../../generated/prisma/enums.ts';
 
 export type Suchparameter = {
-    readonly nachname ?: string;
-    readonly nationalitaet ?: string;
+    readonly nachname?: string;
+    readonly nationalitaet?: string;
     readonly position?: PositionType;
-
 };
 
-export const suchparameterNamen = [
-    'nachname',
-    'nationalitaet',
-    'position',
-];
+export const suchparameterNamen = ['nachname', 'nationalitaet', 'position'];

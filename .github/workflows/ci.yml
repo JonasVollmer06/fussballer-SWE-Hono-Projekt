@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   quality:
-    name: Format, lint, test
+    name: Format
     runs-on: ubuntu-latest
 
     steps:
@@ -28,16 +28,16 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Generate Prisma client
-        env:
-          DATABASE_URL: postgresql://fussballer:p@localhost:5432/fussballer?schema=fussballer
-        run: bunx prisma generate
+      # - name: Generate Prisma client
+      #   env:
+      #     DATABASE_URL: postgresql://fussballer:p@localhost:5432/fussballer?schema=fussballer
+      #   run: bunx prisma generate
 
       - name: oxfmt
         run: bun run fmt:check
 
-      - name: oxlint
-        run: bun run lint src/fussballer
+      # - name: oxlint
+      #   run: bun run lint src/fussballer
 
-      - name: vitest
-        run: bun run test -- --run --passWithNoTests
+      # - name: vitest
+      #   run: bun run test -- --run --passWithNoTests

@@ -28,7 +28,7 @@ export class VersionInvalidError extends Error {
 export class VersionOutdatedError extends Error {
     readonly version: number;
 
-    constructor(version:number) {
+    constructor(version: number) {
         super(`Die Versionsnummer ${version} ist nicht aktuell.`);
         this.version = version;
     }

@@ -41,9 +41,7 @@ vi.mock(import('../../mail/sendmail.mts'), () => {
 const setupTransactionMock = () => {
     transactionMock.mockImplementation(
         async (
-            transactionBody: (
-                tx: Prisma.TransactionClient,
-            ) => Promise<unknown>,
+            transactionBody: (tx: Prisma.TransactionClient) => Promise<unknown>,
         ) =>
             await transactionBody({
                 fussballer: {
@@ -75,10 +73,7 @@ const createFussballer = (): FussballerCreate => {
     };
 };
 
-const createFussballerMock = (
-    fussballer: FussballerCreate,
-    idMock: number,
-) => {
+const createFussballerMock = (fussballer: FussballerCreate, idMock: number) => {
     return {
         id: idMock,
         version: fussballer.version,
