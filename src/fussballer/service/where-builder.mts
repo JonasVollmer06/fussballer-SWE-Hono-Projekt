@@ -3,7 +3,7 @@
  * @packageDocumentation
  */
 
-import { type PositionType, Prisma } from '../../generated/prisma/client.ts';
+import { type PositionType } from '../../generated/prisma/client.ts';
 import { type FussballerWhereInput } from '../../generated/prisma/models/Fussballer.ts';
 import { type Suchparameter } from './suchparameter.mts';
 import { getLogger } from '../../logger/logger.mts';
