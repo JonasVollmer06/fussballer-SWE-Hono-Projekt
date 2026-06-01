@@ -11,7 +11,7 @@ import { getLogger } from '../../logger/logger.mts';
 export type BuildIdParams = {
     readonly id: number;
     readonly mitAuszeichnungen?: boolean;
-}
+};
 
 const logger = getLogger('buildWhere', 'func');
 
@@ -21,7 +21,7 @@ const logger = getLogger('buildWhere', 'func');
  * @returns FussballerWehereInput
  */
 // oxlint-disable-next-line max-lines-per-function
-export const buildWhere = ({...restProps}: Suchparameter) => {
+export const buildWhere = ({ ...restProps }: Suchparameter) => {
     logger.debug('restProps=%o', restProps);
     const where: FussballerWhereInput = {};
 
@@ -30,11 +30,11 @@ export const buildWhere = ({...restProps}: Suchparameter) => {
             case 'nachname':
                 where.nationalitaet = { equals: value as string };
                 break;
-                    
+
             case 'nationalitaet':
                 where.nationalitaet = { equals: value as string };
                 break;
-            case'position':
+            case 'position':
                 // Enum
                 where.position = { equals: value as PositionType };
                 break;
@@ -45,4 +45,4 @@ export const buildWhere = ({...restProps}: Suchparameter) => {
 
     logger.debug('build: where=%o', where);
     return where;
-}
+};
