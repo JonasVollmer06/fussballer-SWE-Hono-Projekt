@@ -16,3 +16,19 @@ const AuszeichnungSchema = z.strictObject({
     bezeichnung: z.string().regex(AUSZEICHNUNG_PATTERN).max(64),
     saison: z.string().regex(SAISON_PATTERN),
 });
+
+const FussballerComplete = z.strictObject({
+    id: z.union([z.number().int().gt(0), z.string().regex(/^[1-9]\d*$/u)]),
+    version: z.int().gte(0),
+
+    nachname: z.string().regex(NAME_PATTERN).max(64),
+    nationalitaet: z.string().regex(NAME_PATTERN).max(64),
+    position: z
+        .enum(['TORWART', 'VERTEIDIGER', 'MITTELFELDSPIELER', 'STUERMER'])
+        .optional(),
+    geburtsdatum: z.coerce.date(),
+    username: z.string().min(1).max(20),
+
+    adresse: AdresseSchema,
+    auszeichnungen: z.array(AuszeichnungSchema).optional(),
+});
