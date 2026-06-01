@@ -6,7 +6,7 @@
 import { Hono } from 'hono';
 import { container } from '../../container.mts';
 import { getLogger } from '../../logger/logger.mts';
-import { createPage } from '/page.mts';
+import { createPage } from './page.mts';
 import { createPageable } from '../service/pageable.mts';
 
 const { fussballerService } = container;
@@ -76,5 +76,17 @@ router.get('/', async (c) => {
     }
 
     const { page, size } = queryParams;
+    delete queryParams['page'];
+    delete queryParams['size'];
+    logger.debug(
+        'get: page=%s, size=%s queryParams=%o', page, size, queryParams,
+    );
 
-})
+    const pageable = createPageable({ number: page, size});
+    const fussballerSlice = await fussballerService.find(queryParams, pageable); // NOSONAR
+    const fussballerPage = createPage(fussballerSlice, pageable);
+    logger.debug('get: fussballerPage=%o', fussballerPage);
+    
+    return c.json(fussballerPage);
+
+});
