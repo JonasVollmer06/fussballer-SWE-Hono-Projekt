@@ -11,3 +11,8 @@ const AdresseSchema = z.strictObject({
     ort: z.string().max(64),
     bundesland: z.string().max(21),
 });
+
+const AuszeichnungSchema = z.strictObject({
+    bezeichnung: z.string().regex(AUSZEICHNUNG_PATTERN).max(64),
+    saison: z.string().regex(SAISON_PATTERN),
+});
