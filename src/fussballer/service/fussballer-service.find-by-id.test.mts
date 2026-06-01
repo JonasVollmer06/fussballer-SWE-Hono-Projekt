@@ -8,7 +8,6 @@ import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { PositionType } from '../../generated/prisma/enums.ts';
 import { PrismaClient } from '../../generated/prisma/client.ts';
 
-
 const { findUniqueMock } = vi.hoisted(() => {
     return {
         findUniqueMock: vi.fn<PrismaClient['fussballer']['findUnique']>(),
@@ -36,26 +35,27 @@ describe('FussballerService findById', () => {
     test('id ist vorhanden', async () => {
         // arrange
         const id = 20;
-        const fussballerMock: Readonly<FussballerMitAdresseUndAuszeichnungen> = {
-            id,
-            version: 0,
-            nachname: 'Vollmer',
-            nationalitaet: 'Angola',
-            position: PositionType.MITTELFELDSPIELER,
-            geburtsdatum: new Date('2005-06-06'),
-            username: 'jonas',
-            erzeugt: new Date(),
-            aktualisiert: new Date(),
-            adresse: {
-                id: 20,
-                plz: '76831',
-                ort: 'München',
-                bundesland: 'BY',
-                fussballerId: id,
-            },
-            auszeichnungen: [],
-        };
-        
+        const fussballerMock: Readonly<FussballerMitAdresseUndAuszeichnungen> =
+            {
+                id,
+                version: 0,
+                nachname: 'Vollmer',
+                nationalitaet: 'Angola',
+                position: PositionType.MITTELFELDSPIELER,
+                geburtsdatum: new Date('2005-06-06'),
+                username: 'jonas',
+                erzeugt: new Date(),
+                aktualisiert: new Date(),
+                adresse: {
+                    id: 20,
+                    plz: '76831',
+                    ort: 'München',
+                    bundesland: 'BY',
+                    fussballerId: id,
+                },
+                auszeichnungen: [],
+            };
+
         findUniqueMock.mockResolvedValueOnce(fussballerMock);
 
         // act
