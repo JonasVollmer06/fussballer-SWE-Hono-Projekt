@@ -99,11 +99,97 @@ export class FussballerService {
             return await this.#findAll(pageable);
         }
 
-        if (!this.#checkKeys(keys) || !this.#checkenums(suchparameter)) {
+        if (!this.#checkKeys(keys) || !this.#checkEnums(suchparameter)) {
             this.#logger.debug('Ungültige Suchparameter wurden übergeben.');
             throw new NotFoundError('Ungueltige Suchparameter');
         }
 
         const where = buildWhere(suchparameter);
+        const { number, size } = pageable;
+        const fussballers: FussballerMitAdresse[] =
+            await prismaClient.fussballer.findMany({
+                where,
+                skip: number * size,
+                take: size,
+                include: this.#includeAdresse,
+            });
+
+        if (fussballers.length === 0) {
+            this.#logger.debug('find: Keine passenden Fussballer gefunden');
+            throw new NotFoundError(
+                `Keine passenden Fussballer gefunden: ${JSON.stringify(suchparameter)}, Seite ${pageable.number}`,
+            );
+        }
+        const totalElements = await this.count(where);
+        return this.#createSlice(fussballers, totalElements);
+    }
+
+    async count(where?: Prisma.FussballerWhereInput) {
+        this.#logger.debug('count:where=%o', where ?? 'undefined');
+        const { count } = prismaClient.fussballer;
+        const anzahl =
+            where === undefined ? await count() : await count({ where });
+        this.#logger.debug('count: %d=', anzahl);
+        return anzahl;
+    }
+
+    async #findAll(
+        pageable: Pageable,
+    ): Promise<Readonly<Slice<FussballerMitAdresse>>> {
+        const { number, size } = pageable;
+        const fussballers: FussballerMitAdresse[] =
+            await prismaClient.fussballer.findMany({
+                skip: number * size,
+                take: size,
+                include: this.#includeAdresse,
+            });
+        if (fussballers.length === 0) {
+            this.#logger.debug('#findAll: Keine passenden Fussballer gefunden');
+            throw new NotFoundError(`Ungueltige Seite "${number}"`);
+        }
+
+        const totalElements = await this.count();
+        return this.#createSlice(fussballers, totalElements);
+    }
+
+    #createSlice(
+        fussballers: FussballerMitAdresse[],
+        totalElements: number,
+    ): Readonly<Slice<FussballerMitAdresse>> {
+        const fussballerSlice: Slice<FussballerMitAdresse> = {
+            content: fussballers,
+            totalElements,
+        };
+
+        this.#logger.debug('createSlice: fussballerSlice=%o', fussballerSlice);
+        return fussballerSlice;
+    }
+
+    #checkKeys(keys: string[]) {
+        this.#logger.debug('#checkKeys: = keys=%o', keys);
+        let validKeys = true;
+        keys.forEach((key) => {
+            if (!suchparameterNamen.includes(key)) {
+                this.#logger.debug(
+                    '#checkKeys: ungueltiger Suchparameter "%s"',
+                    key,
+                );
+                validKeys = false;
+            }
+        });
+
+        return validKeys;
+    }
+
+    #checkEnums(suchparameter: Suchparameter) {
+        const { position } = suchparameter;
+        this.#logger.debug('#checkenums: Suchparameter "art=%s"', position);
+        return (
+            position === undefined ||
+            position === 'TORWART' ||
+            position === 'VERTEIDIGER' ||
+            position === 'MITTELFELDSPIELER' ||
+            position === 'STUERMER'
+        );
     }
 }
