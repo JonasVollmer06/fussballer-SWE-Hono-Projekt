@@ -16,7 +16,7 @@
 import { type Context, Hono, type Next } from 'hono';
 import { ForbiddenError, UnauthorizedError } from './security/errors.mts';
 import {
-    IsbnExistsError,
+    UsernameExistsError,
     NotFoundError,
     VersionInvalidError,
     VersionOutdatedError,
@@ -124,7 +124,7 @@ app.onError((error, c) => {
         );
     }
 
-    if (error instanceof IsbnExistsError) {
+    if (error instanceof UsernameExistsError) {
         return createProblemDetails(c, unprocessableContent, error.message);
     }
 
