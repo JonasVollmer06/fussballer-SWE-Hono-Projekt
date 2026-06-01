@@ -41,7 +41,7 @@ describe('FussballerService find', () => {
         // arrange
         const nachname = 'Hery';
         const suchparameter: Suchparameter = { nachname };
-        const pageable: Pageable = { number: 1, size: 5};
+        const pageable: Pageable = { number: 1, size: 5 };
         const fussballerMock: FussballerMitAdresseUndAuszeichnungen = {
             id: 40,
             version: 0,
@@ -78,7 +78,7 @@ describe('FussballerService find', () => {
         // arrange
         const nachname = 'TestName';
         const suchparameter: Suchparameter = { nachname };
-        const pageable: Pageable = { number: 1, size: 5};
+        const pageable: Pageable = { number: 1, size: 5 };
 
         findManyMock.mockResolvedValue([]);
 
