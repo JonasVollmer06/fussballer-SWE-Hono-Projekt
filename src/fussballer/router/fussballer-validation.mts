@@ -12,16 +12,29 @@ const nameSchema = z
     .regex(/^[A-ZÄÖÜ][a-zäöüß]+(-[A-ZÄÖÜ][a-zäöüß]+)?$/u)
     .max(MAX_VARCHAR_LENGTH);
 
-const usernameSchema = z.string().regex(/^\S.*$/u).min(1).max(20);
+const usernameSchema = z
+    .string()
+    .regex(/^\S.*$/u)
+    .min(1)
+    .max(20);
 
 const AdresseSchema = z.strictObject({
     plz: z.string().regex(/^\d{5}$/u),
-    ort: z.string().regex(/^\S.*$/u).max(MAX_VARCHAR_LENGTH),
-    bundesland: z.string().regex(/^\S.*$/u).max(21),
+    ort: z
+        .string()
+        .regex(/^\S.*$/u)
+        .max(MAX_VARCHAR_LENGTH),
+    bundesland: z
+        .string()
+        .regex(/^\S.*$/u)
+        .max(21),
 });
 
 const AuszeichnungSchema = z.strictObject({
-    bezeichnung: z.string().regex(/^\S.*$/u).max(MAX_VARCHAR_LENGTH),
+    bezeichnung: z
+        .string()
+        .regex(/^\S.*$/u)
+        .max(MAX_VARCHAR_LENGTH),
     saison: z.string().regex(/^(\d{4})(\/\d{2})?$/u),
 });
 
