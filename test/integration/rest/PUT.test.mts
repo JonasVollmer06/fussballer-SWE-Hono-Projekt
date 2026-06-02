@@ -35,3 +35,10 @@ const fussballerFuerNichtVorhandeneId: FussballerUpdateType = {
     geburtsdatum: new Date('2000-01-01'),
 };
 const idNichtVorhanden = 9999;
+
+const fussballerInvalid: Record<string, unknown> = {
+    nachname: '',
+    nationalitaet: '',
+    position: 'LIBERO',
+    geburtsdatum: 'ungueltiges-datum',
+};
