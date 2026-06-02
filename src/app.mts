@@ -38,7 +38,6 @@ import { createMiddleware } from 'hono/factory'; // oxlint-disable-line import/m
 import { router as devRouter } from './config/dev/dev-router.mts';
 import { env } from './config/env.mts';
 import { getLogger } from './logger/logger.mts';
-import { graphqlApp } from './fussballer/graphql/graphql-app.mts';
 import { router as healthRouter } from './admin/health-router.mts';
 import { paths } from './config/paths.mts';
 import { router as prometheusRouter } from './monitoring/prometheus-router.mts';
@@ -91,7 +90,6 @@ app.route(paths.rest, fussballerWriteRouter);
 app.route(paths.health, healthRouter);
 app.route(paths.auth, authRouter);
 // Yoga baut eine Hono-App mit Basispfad "/graphql"
-app.route('/', graphqlApp);
 app.route('/prometheus', prometheusRouter);
 
 const { NODE_ENV } = env;

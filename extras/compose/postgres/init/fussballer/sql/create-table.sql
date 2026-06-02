@@ -21,8 +21,8 @@ CREATE TABLE IF NOT EXISTS fussballer (
 
 CREATE TABLE IF NOT EXISTS adresse (
     id             integer GENERATED ALWAYS AS IDENTITY(START WITH 1000) PRIMARY KEY,
-    plz            text,
-    ort            text,
+    plz            text NOT NULL,
+    ort            text NOT NULL,
     bundesland     text,
     fussballer_id  integer NOT NULL UNIQUE REFERENCES fussballer ON DELETE CASCADE
 );

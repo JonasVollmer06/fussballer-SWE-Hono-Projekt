@@ -8,4 +8,4 @@ DROP TABLE IF EXISTS auszeichnung CASCADE;
 DROP TABLE IF EXISTS fussballer CASCADE;
 
 -- https://www.postgresql.org/docs/current/sql-droptype.html
-DROP TYPE IF EXISTS position;
+DROP TYPE IF EXISTS position_enum;
