@@ -3,8 +3,8 @@
  * @packageDocumentation
  */
 
-import { type PositionType } from '../../generated/prisma/client.ts';
 import { type FussballerWhereInput } from '../../generated/prisma/models/Fussballer.ts';
+import { type PositionType } from '../../generated/prisma/client.ts';
 import { type Suchparameter } from './suchparameter.mts';
 import { getLogger } from '../../logger/logger.mts';
 
@@ -20,7 +20,6 @@ const logger = getLogger('buildWhere', 'func');
  * @param suchparameter
  * @returns FussballerWehereInput
  */
-// oxlint-disable-next-line max-lines-per-function
 export const buildWhere = ({ ...restProps }: Suchparameter) => {
     logger.debug('restProps=%o', restProps);
     const where: FussballerWhereInput = {};

@@ -16,8 +16,8 @@
 import { type Context, Hono, type Next } from 'hono';
 import { ForbiddenError, UnauthorizedError } from './security/errors.mts';
 import {
-    UsernameExistsError,
     NotFoundError,
+    UsernameExistsError,
     VersionInvalidError,
     VersionOutdatedError,
 } from './fussballer/service/errors.mts';
@@ -30,13 +30,13 @@ import {
 } from './problem-details.mts';
 import { type ZodError } from 'zod';
 import { router as authRouter } from './security/auth-router.mts';
-import { router as fussballerWriteRouter } from './fussballer/router/fussballer-write-router.mts';
 import { compress } from 'hono/compress';
 import { cors } from 'hono/cors';
 import { corsOptions } from './config/cors.mts';
-import { createMiddleware } from 'hono/factory'; // oxlint-disable-line import/max-dependencies
-import { router as devRouter } from './config/dev/dev-router.mts';
+import { createMiddleware } from 'hono/factory';
+import { router as devRouter } from './config/dev/dev-router.mts'; // oxlint-disable-line import/max-dependencies
 import { env } from './config/env.mts';
+import { router as fussballerWriteRouter } from './fussballer/router/fussballer-write-router.mts';
 import { getLogger } from './logger/logger.mts';
 import { router as healthRouter } from './admin/health-router.mts';
 import { paths } from './config/paths.mts';

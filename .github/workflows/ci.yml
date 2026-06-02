@@ -36,8 +36,8 @@ jobs:
       - name: oxfmt
         run: bun run fmt:check
 
-      # - name: oxlint
-      #   run: bun run lint src/fussballer
+      - name: oxlint
+        run: bun run lint src/fussballer
 
       # - name: vitest
       #   run: bun run test -- --run --passWithNoTests

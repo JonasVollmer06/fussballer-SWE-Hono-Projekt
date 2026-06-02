@@ -5,9 +5,9 @@
 
 import { Hono } from 'hono';
 import { container } from '../../container.mts';
-import { getLogger } from '../../logger/logger.mts';
 import { createPage } from './page.mts';
 import { createPageable } from '../service/pageable.mts';
+import { getLogger } from '../../logger/logger.mts';
 
 const { fussballerService } = container;
 

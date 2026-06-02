@@ -13,9 +13,9 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <https://www.gnu.org/licenses/>.
 
+import { DbPopulateService } from './config/dev/db-populate.mts';
 import { FussballerService } from './fussballer/service/fussballer-service.mts';
 import { FussballerWriteService } from './fussballer/service/fussballer-write-service.mts';
-import { DbPopulateService } from './config/dev/db-populate.mts';
 import { KeycloakService } from './security/keycloak-service.mts';
 
 const fussballerService = new FussballerService();

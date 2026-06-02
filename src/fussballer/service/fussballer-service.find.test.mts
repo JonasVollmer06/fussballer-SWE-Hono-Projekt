@@ -1,13 +1,11 @@
-// oxlint-disable max-lines-per-function, no-magic-numbers
-
 import {
     type FussballerMitAdresseUndAuszeichnungen,
     FussballerService,
 } from './fussballer-service.mts';
 import { beforeEach, describe, expect, test, vi } from 'vitest';
+import { type Pageable } from './pageable.mts';
 import { PositionType } from '../../generated/prisma/enums.ts';
 import { PrismaClient } from '../../generated/prisma/client.ts';
-import { type Pageable } from './pageable.mts';
 import { type Suchparameter } from './suchparameter.mts';
 
 const { findManyMock, countMock } = vi.hoisted(() => {
@@ -45,7 +43,7 @@ describe('FussballerService find', () => {
         const fussballerMock: FussballerMitAdresseUndAuszeichnungen = {
             id: 40,
             version: 0,
-            nachname: nachname,
+            nachname: 'Hery',
             nationalitaet: 'Türkei',
             position: PositionType.MITTELFELDSPIELER,
             geburtsdatum: new Date('2004-12-13'),

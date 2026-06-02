@@ -1,4 +1,3 @@
-import { type Prisma } from '../../generated/prisma/client.ts';
 import {
     NotFoundError,
     UsernameExistsError,
@@ -6,6 +5,7 @@ import {
     VersionOutdatedError,
 } from './errors.mts';
 import { FussballerService } from './fussballer-service.mts';
+import { type Prisma } from '../../generated/prisma/client.ts';
 import { getLogger } from '../../logger/logger.mts';
 import { prismaClient } from '../../config/prisma-client.mts';
 import { sendmail } from '../../mail/sendmail.mts';

@@ -1,19 +1,17 @@
-// oxlint-disable max-lines
-
 /**
  * Dieses Modul ist die Service-Datei für den Fussballer-Microservice
  *  @packageDocumentation
  */
 
-import { type Prisma } from '../../generated/prisma/client.ts';
+import { type Suchparameter, suchparameterNamen } from './suchparameter.mts';
 import { type FussballerInclude } from '../../generated/prisma/models/Fussballer.ts';
 import { NotFoundError } from './errors.mts';
-import { prismaClient } from '../../config/prisma-client.mts';
 import { type Pageable } from './pageable.mts';
-import { type Suchparameter, suchparameterNamen } from './suchparameter.mts';
+import { type Prisma } from '../../generated/prisma/client.ts';
 import { type Slice } from './slice.mts';
-import { getLogger } from '../../logger/logger.mts';
 import { buildWhere } from './where-builder.mts';
+import { getLogger } from '../../logger/logger.mts';
+import { prismaClient } from '../../config/prisma-client.mts';
 
 type FindByIdParams = {
     readonly id: number;

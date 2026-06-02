@@ -1,8 +1,6 @@
-// oxlint-disable max-lines-per-function
-
 import { AUTHORIZATION, BEARER, DELETE, restURL } from '../constants.mts';
+import { beforeAll, describe, expect, test } from 'vitest';
 import { getToken } from '../token.mts';
-import { describe, beforeAll, expect, test } from 'vitest';
 // Testdaten
 const id = '30';
 
@@ -10,11 +8,9 @@ const id = '30';
 
 describe('DELETE /rest', () => {
     let token: string;
-    let tokenUser: string;
 
     beforeAll(async () => {
         token = await getToken('admin', 'p');
-        tokenUser = await getToken('user', 'p');
     });
 
     test.concurrent('Gespeichertes Fussballer-Objekt aus DB löschen', async () => {
