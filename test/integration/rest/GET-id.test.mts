@@ -1,9 +1,11 @@
+// oxlint-disable max-lines-per-function
 // oxlint-disable no-magic-numbers
 
 import {
     ACCEPT,
     APPLICATION_JSON,
     CONTENT_TYPE,
+    IF_NONE_MATCH,
     restURL,
 } from '../constants.mts';
 import { describe, expect, test } from 'vitest';
@@ -12,6 +14,7 @@ import { describe, expect, test } from 'vitest';
 const ids = [20, 30];
 const idNichtVorhanden = 9999;
 const idFalsch = 'xyz';
+const idsETag = [40, 50];
 
 //Tests
 describe('GET /rest/:id', () => {
@@ -61,4 +64,25 @@ describe('GET /rest/:id', () => {
         // then
         expect(status).toBe(404);
     });
+
+    test.concurrent.each(idsETag)(
+        `Fussballer mit ID %i und ${IF_NONE_MATCH} liefert Not Modified`,
+        async (id) => {
+            // given
+            const url = `${restURL}/${id}`;
+            const requestHeaders = new Headers();
+            requestHeaders.append(ACCEPT, APPLICATION_JSON);
+            requestHeaders.append(IF_NONE_MATCH, '"0"');
+
+            // when
+            const response = await fetch(url, { headers: requestHeaders });
+            const { status } = response;
+
+            // then
+            expect(status).toBe(304);
+
+            const body = await response.text();
+            expect(body).toBe('');
+        },
+    );
 });
