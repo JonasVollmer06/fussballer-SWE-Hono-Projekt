@@ -55,3 +55,44 @@ const neuerFussballerInvalid: Record<string, unknown> = {
         },
     ],
 };
+
+//Tests
+describe('POST /rest', () => {
+    let token: string;
+
+    beforeAll(async () => {
+        token = await getToken('admin', 'p');
+    });
+
+    test('Neuen Fussballer anlegen', async () => {
+        // given
+        const headers = new Headers();
+        headers.set(CONTENT_TYPE, APPLICATION_JSON);
+        headers.set(AUTHORIZATION, `${BEARER} ${token}`);
+
+        // whne
+        const response = await fetch(restURL, {
+            method: POST,
+            headers,
+            body: JSON.stringify(neuerFussballer),
+        });
+
+        // then
+        const { status } = response;
+
+        expect(status).toBe(201);
+
+        const location = response.headers.get(LOCATION);
+
+        expect(location).toBeDefined();
+
+        const indexLastSlash = location?.lastIndexOf('/') ?? -1;
+
+        expect(indexLastSlash).not.toBe(-1);
+
+        const idStr = location?.slice(indexLastSlash + 1);
+
+        expect(idStr).toBeDefined();
+        expect(FussballerService.ID_PATTERN.test(idStr ?? '')).toBe(true);
+    });
+})
