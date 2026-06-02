@@ -27,7 +27,7 @@ export const buildWhere = ({ ...restProps }: Suchparameter) => {
     Object.entries(restProps).forEach(([key, value]) => {
         switch (key) {
             case 'nachname':
-                where.nationalitaet = { equals: value as string };
+                where.nachname = { equals: value as string };
                 break;
 
             case 'nationalitaet':

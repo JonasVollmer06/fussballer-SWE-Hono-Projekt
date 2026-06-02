@@ -1,0 +1,25 @@
+info:
+  name: Refresh Access Token
+  type: http
+  seq: 6
+
+http:
+  method: POST
+  url: "{{oidcTokenUrl}}"
+  body:
+    type: form-urlencoded
+    data:
+      - name: grant_type
+        value: refresh_token
+      - name: refresh_token
+        value: eyJhbGciOiJIUzUxMiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICI0ODFmYWMxYy1iYWZhLTRjMDYtOGI1My1lMDVjMzRmOTg4YTYifQ.eyJleHAiOjE3ODA0MzE4NDksImlhdCI6MTc4MDQyODI0OSwianRpIjoiZDlhODA5ODQtMjE5MC1mODI4LWM4NjItNjM2MzUwODQ3YmZlIiwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6ODg0My9yZWFsbXMvamF2YXNjcmlwdCIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0Ojg4NDMvcmVhbG1zL2phdmFzY3JpcHQiLCJzdWIiOiI5ZTA5NWQ1ZS0xY2I3LTQ4YzktOTI5ZC1iMTM5ODYxN2FjNTMiLCJ0eXAiOiJSZWZyZXNoIiwiYXpwIjoiamF2YXNjcmlwdC1jbGllbnQiLCJzaWQiOiJjYS03dU94SmJmc1VMQUZULVBXbWxPN0wiLCJzY29wZSI6ImJhc2ljIGVtYWlsIHJvbGVzIGFjciBzZXJ2aWNlX2FjY291bnQgcHJvZmlsZSB3ZWItb3JpZ2lucyIsImF1ZF94IjpbInJlYWxtLW1hbmFnZW1lbnQiLCJhY2NvdW50Il19.dbk3O3gwVDxIBSoKO2Ri1kAF5atdLDvHGnZhGliNb7NUKrxbOZccF59wv0SmLUPQxyfHht-qwH0ZzfiT0X6fhA
+  auth:
+    type: basic
+    username: "{{clientId}}"
+    password: "{{clientSecret}}"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

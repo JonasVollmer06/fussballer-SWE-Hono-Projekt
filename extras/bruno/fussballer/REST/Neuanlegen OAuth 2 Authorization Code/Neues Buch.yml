@@ -1,0 +1,53 @@
+info:
+  name: Neuer Fussballer
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{restUrl}}"
+  headers:
+    - name: ""
+      value: ""
+      disabled: true
+  body:
+    type: json
+    data: |-
+      {
+        "nachname": "Fuss",
+        "nationalitaet": "Deutschland",
+        "position": "MITTELFELDSPIELER",
+        "geburtsdatum": "2004-05-14",
+        "username": "felix",
+        "adresse": {
+          "plz": "76133",
+          "ort": "Karlsruhe",
+          "bundesland": "BW"
+        },
+        "auszeichnungen": [
+          {
+            "bezeichnung": "Spieler des Monats",
+            "saison": "2025/2026"
+          }
+        ]
+      }
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "201"
+    - expression: res.headers.location
+      operator: matches
+      value: /rest\/[1-9]\d*$
+    - expression: res.body
+      operator: isString
+    - expression: res.body
+      operator: isEmpty
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,31 @@
+info:
+  name: Nachname auf Seite 99999
+  type: http
+  seq: 5
+
+http:
+  method: GET
+  url: https://localhost:3000/rest?nachname=Hery&page=99999
+  headers:
+    - name: Accept
+      value: application/json
+  params:
+    - name: nachname
+      value: Hery
+      type: query
+    - name: page
+      value: "99999"
+      type: query
+  auth: inherit
+
+runtime:
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "404"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
