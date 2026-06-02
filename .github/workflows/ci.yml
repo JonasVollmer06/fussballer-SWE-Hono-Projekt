@@ -28,10 +28,10 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      # - name: Generate Prisma client
-      #   env:
-      #     DATABASE_URL: postgresql://fussballer:p@localhost:5432/fussballer?schema=fussballer
-      #   run: bunx prisma generate
+      - name: Generate Prisma client
+        env:
+          DATABASE_URL: postgresql://fussballer:p@localhost:5432/fussballer?schema=fussballer
+        run: bunx prisma generate
 
       - name: oxfmt
         run: bun run fmt:check
