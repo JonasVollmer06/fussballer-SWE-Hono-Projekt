@@ -11,8 +11,11 @@ import { type FussballerMitAdresse } from '../../../src/fussballer/service/fussb
 import { type Page } from '../../../src/fussballer/router/page.mts';
 
 //Testdaten
+const nachnamen = ['Vollmer', 'Ulm'];
+const nachnamenNichtVorhanden = ['Mustermann', 'Niemand'];
 const nationalitaeten = ['Angola', 'Irland'];
 const nationalitaetenNichtVorhanden = ['Atlantis', 'Nirgends'];
+const positionen = ['TORWART', 'VERTEIDIGER'];
 
 //tests
 describe('GET /rest', () => {
@@ -37,6 +40,52 @@ describe('GET /rest', () => {
                 expect(id).toBeDefined();
             });
     });
+
+    test.concurrent.each(nachnamen)(
+        'Fussballer mit Nachname %s suchen',
+        async (nachname) => {
+            // given
+            const params = new URLSearchParams({ nachname });
+            const url = `${restURL}?${params}`;
+            const requestHeaders = new Headers();
+            requestHeaders.append(ACCEPT, APPLICATION_JSON);
+
+            // when
+            const response = await fetch(url, { headers: requestHeaders });
+            const { status, headers } = response;
+
+            // then
+            expect(status).toBe(200);
+            expect(headers.get(CONTENT_TYPE)).toMatch(/json/iu);
+
+            const body = (await response.json()) as Page<FussballerMitAdresse>;
+
+            expect(body).toBeDefined();
+
+            body.content
+                .map((fussballer) => fussballer.nachname)
+                .forEach((wert) => {
+                    expect(wert).toBe(nachname);
+                });
+        },
+    );
+
+    test.concurrent.each(nachnamenNichtVorhanden)(
+        'Keine Fussballer mit Nachname %s finden',
+        async (nachname) => {
+            // given
+            const params = new URLSearchParams({ nachname });
+            const url = `${restURL}?${params}`;
+            const requestHeaders = new Headers();
+            requestHeaders.append(ACCEPT, APPLICATION_JSON);
+
+            // when
+            const { status } = await fetch(url, { headers: requestHeaders });
+
+            // then
+            expect(status).toBe(404);
+        },
+    );
 
     test.concurrent.each(nationalitaeten)(
         'Fussballer mit Nationalitaet %s suchen',
@@ -83,4 +132,47 @@ describe('GET /rest', () => {
             expect(status).toBe(404);
         },
     );
+
+    test.concurrent.each(positionen)(
+        'Fussballer mit Position %s suchen',
+        async (position) => {
+            // given
+            const params = new URLSearchParams({ position });
+            const url = `${restURL}?${params}`;
+            const requestHeaders = new Headers();
+            requestHeaders.append(ACCEPT, APPLICATION_JSON);
+
+            // when
+            const response = await fetch(url, { headers: requestHeaders });
+            const { status, headers } = response;
+
+            // then
+            expect(status).toBe(200);
+            expect(headers.get(CONTENT_TYPE)).toMatch(/json/iu);
+
+            const body = (await response.json()) as Page<FussballerMitAdresse>;
+
+            expect(body).toBeDefined();
+
+            body.content
+                .map((fussballer) => fussballer.position)
+                .forEach((wert) => {
+                    expect(wert).toBe(position);
+                });
+        },
+    );
+
+    test.concurrent('Keine Fussballer zu unbekanntem Suchparameter', async () => {
+        // given
+        const params = new URLSearchParams({ foo: 'bar' });
+        const url = `${restURL}?${params}`;
+        const requestHeaders = new Headers();
+        requestHeaders.append(ACCEPT, APPLICATION_JSON);
+
+        // when
+        const { status } = await fetch(url, { headers: requestHeaders });
+
+        // then
+        expect(status).toBe(404);
+    });
 });
