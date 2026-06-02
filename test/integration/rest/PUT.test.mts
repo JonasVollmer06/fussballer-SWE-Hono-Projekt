@@ -17,7 +17,7 @@ import { getToken } from '../token.mts';
 
 type ValidationIssue = {
     readonly path: readonly (number | string)[];
-}
+};
 
 //Testdaten
 const geaenderterFussballer: FussballerUpdateType = {
