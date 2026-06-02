@@ -1,11 +1,9 @@
-// oxlint-disable max-lines-per-function
 // oxlint-disable no-magic-numbers
 
 import {
     ACCEPT,
     APPLICATION_JSON,
     CONTENT_TYPE,
-    IF_NONE_MATCH,
     restURL,
 } from '../constants.mts';
 import { describe, expect, test } from 'vitest';
@@ -13,8 +11,6 @@ import { describe, expect, test } from 'vitest';
 //testdaten
 const ids = [20, 30];
 const idNichtVorhanden = 9999;
-const idsETag = [40, 50];
-const idFalsch = 'xyz';
 
 //Tests
 describe('GET /rest/:id', () => {
@@ -38,4 +34,17 @@ describe('GET /rest/:id', () => {
             expect(fussballer.id).toBe(id);
         },
     );
+
+    test.concurrent('Unbekannte Fussballer-ID liefert Not Found', async () => {
+        // given
+        const url = `${restURL}/${idNichtVorhanden}`;
+        const requestHeaders = new Headers();
+        requestHeaders.append(ACCEPT, APPLICATION_JSON);
+
+        // when
+        const { status } = await fetch(url, { headers: requestHeaders });
+
+        // then
+        expect(status).toBe(404);
+    });
 });
