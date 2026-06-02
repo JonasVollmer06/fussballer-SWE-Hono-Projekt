@@ -2,7 +2,7 @@
 
 import { AUTHORIZATION, BEARER, DELETE, restURL } from '../constants.mts';
 import { getToken } from '../token.mts';
-import { describe, beforeAll, expect, test} from 'vitest';
+import { describe, beforeAll, expect, test } from 'vitest';
 // Testdaten
 const id = '30';
 
@@ -31,7 +31,6 @@ describe('DELETE /rest', () => {
 
         // assert
         expect(status).toBe(204);
-
     });
 
     test.concurrent('Fussballer-Objekt mit falschem Token löschen', async () => {
