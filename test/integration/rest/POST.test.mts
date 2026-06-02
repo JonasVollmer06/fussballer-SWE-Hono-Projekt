@@ -36,3 +36,22 @@ const neuerFussballer: FussballerNeuType = {
         },
     ],
 };
+
+const neuerFussballerInvalid: Record<string, unknown> = {
+    nachname: '',
+    nationalitaet: '',
+    position: 'LIBERO',
+    geburtsdatum: 'ungueltiges-datum',
+    username: '',
+    adresse: {
+        plz: '70173',
+        ort: 'Stuttgart',
+        bundesland: 'Baden-Wuerttemberg',
+    },
+    auszeichnungen: [
+        {
+            bezeichnung: 'Spieler des Monats',
+            saison: '2024/25',
+        },
+    ],
+};
