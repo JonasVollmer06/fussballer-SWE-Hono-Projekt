@@ -18,4 +18,21 @@ type ValidationIssue = {
 };
 
 //Testdaten
-
+const neuerFussballer: FussballerNeuType = {
+    nachname: 'Schneider',
+    nationalitaet: 'Deutsch',
+    position: 'MITTELFELDSPIELER',
+    geburtsdatum: new Date('1998-05-12'),
+    username: 'schneider98',
+    adresse: {
+        plz: '70173',
+        ort: 'Stuttgart',
+        bundesland: 'Baden-Wuerttemberg',
+    },
+    auszeichnungen: [
+        {
+            bezeichnung: 'Spieler des Monats',
+            saison: '2024/25',
+        },
+    ],
+};
