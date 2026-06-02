@@ -1,5 +1,3 @@
-// oxlint-disable no-magic-numbers
-
 import {
     type FussballerMitAdresseUndAuszeichnungen,
     FussballerService,

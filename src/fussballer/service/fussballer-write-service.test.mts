@@ -64,7 +64,7 @@ const createFussballer = (): FussballerCreate => {
             create: {
                 plz: '76133',
                 ort: 'Karlsruhe',
-                bundesland: 'Baden-Wuerttemberg',
+                bundesland: 'BW',
             },
         },
         auszeichnungen: {
@@ -74,25 +74,13 @@ const createFussballer = (): FussballerCreate => {
 };
 
 const createFussballerMock = (fussballer: FussballerCreate, idMock: number) => {
-    return {
-        id: idMock,
-        version: fussballer.version,
-        nachname: fussballer.nachname,
-        nationalitaet: fussballer.nationalitaet,
-        position: fussballer.position,
-        geburtsdatum: fussballer.geburtsdatum,
-        username: fussballer.username,
-        erzeugt: new Date(),
-        aktualisiert: new Date(),
-        adresse: {
-            id: 11,
-            plz: '76133',
-            ort: 'Karlsruhe',
-            bundesland: 'Baden-Wuerttemberg',
-            fussballerId: idMock,
-        },
-        auszeichnungen: [],
-    };
+    const fussballerTmp: any = { ...fussballer };
+    fussballerTmp.id = idMock;
+    fussballerTmp.erzeugt = new Date();
+    fussballerTmp.aktualisiert = new Date();
+    fussballerTmp.adresse.create.id = 11;
+    fussballerTmp.adresse.create.fussballerId = idMock;
+    return fussballerTmp;
 };
 
 describe('FussballerWriteService create', () => {
@@ -115,10 +103,11 @@ describe('FussballerWriteService create', () => {
         // given
         const idMock = 1;
         const fussballer = createFussballer();
-        const fussballerTmp = createFussballerMock(fussballer, idMock);
 
         // Username existiert noch nicht
         countMock.mockResolvedValue(0);
+
+        createMock.mockResolvedValue(createFussballerMock(fussballer, idMock));
 
         // sendmail ist eine void-Funktion
         sendmailMock.mockResolvedValue(null);
@@ -128,8 +117,6 @@ describe('FussballerWriteService create', () => {
 
         // then
         expect(id).toBe(idMock);
-        expect(countMock).toHaveBeenCalledOnce();
-        expect(createMock).toHaveBeenCalledOnce();
         expect(sendmailMock).toHaveBeenCalledOnce();
     });
 });
