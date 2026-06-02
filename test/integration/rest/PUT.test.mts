@@ -96,4 +96,67 @@ describe('PUT /rest/:id', () => {
 
         expect(status).toBe(404);
     });
-})
+
+    test(`Update ohne ${IF_MATCH}-Header wird abgelehnt`, async () => {
+        // given
+        const url = `${restURL}/${idVorhanden}`;
+        const headers = new Headers();
+        headers.set(CONTENT_TYPE, APPLICATION_JSON);
+        headers.set(AUTHORIZATION, `${BEARER} ${token}`);
+
+        // when
+        const response = await fetch(url, {
+            method: PUT,
+            headers,
+            body: JSON.stringify(geaenderterFussballer),
+        });
+
+        // then
+        const { status } = response;
+
+        expect(status).toBe(428);
+
+        const body = (await response.json()) as ProblemDetails;
+        expect(body.detail).toBe('Header "If-Match" ist erforderlich.');
+    });
+
+    test('Update mit fehlerhaften Fussballer-Daten wird abgelehnt', async () => {
+        // given
+        const url = `${restURL}/${idVorhanden}`;
+        const headers = new Headers();
+        headers.set(CONTENT_TYPE, APPLICATION_JSON);
+        headers.set(AUTHORIZATION, `${BEARER} ${token}`);
+        headers.set(IF_MATCH, '"0"');
+
+        const expectedPaths = [
+            'nachname',
+            'nationalitaet',
+            'position',
+            'geburtsdatum',
+        ];
+
+        // when
+        const response = await fetch(url, {
+            method: PUT,
+            headers,
+            body: JSON.stringify(fussballerInvalid),
+        });
+
+        // then
+        const { status } = response;
+
+        expect(status).toBe(422);
+
+        const body = (await response.json()) as ProblemDetails;
+        const validationIssues = body.detail as ValidationIssue[];
+
+        expect(validationIssues).toHaveLength(expectedPaths.length);
+
+        const paths = validationIssues.flatMap(({ path }) => {
+            const field = path.at(0);
+            return typeof field === 'string' ? [field] : [];
+        });
+
+        expect(paths).toStrictEqual(expect.arrayContaining(expectedPaths));
+    });
+});
