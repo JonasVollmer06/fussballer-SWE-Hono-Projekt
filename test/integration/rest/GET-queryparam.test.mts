@@ -1,3 +1,5 @@
+// oxlint-disable max-lines-per-function
+
 import {
     ACCEPT,
     APPLICATION_JSON,
@@ -10,6 +12,7 @@ import { type Page } from '../../../src/fussballer/router/page.mts';
 
 //Testdaten
 const nationalitaeten = ['Angola', 'Irland'];
+const nationalitaetenNichtVorhanden = ['Atlantis', 'Nirgends'];
 
 //tests
 describe('GET /rest', () => {
@@ -61,6 +64,23 @@ describe('GET /rest', () => {
                 .forEach((wert) => {
                     expect(wert).toBe(nationalitaet);
                 });
+        },
+    );
+
+    test.concurrent.each(nationalitaetenNichtVorhanden)(
+        'Keine Fussballer mit Nationalitaet %s finden',
+        async (nationalitaet) => {
+            // given
+            const params = new URLSearchParams({ nationalitaet });
+            const url = `${restURL}?${params}`;
+            const requestHeaders = new Headers();
+            requestHeaders.append(ACCEPT, APPLICATION_JSON);
+
+            // when
+            const { status } = await fetch(url, { headers: requestHeaders });
+
+            // then
+            expect(status).toBe(404);
         },
     );
 });
