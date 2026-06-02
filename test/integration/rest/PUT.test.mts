@@ -42,3 +42,37 @@ const fussballerInvalid: Record<string, unknown> = {
     position: 'LIBERO',
     geburtsdatum: 'ungueltiges-datum',
 };
+
+//Tests
+describe('PUT /rest/:id', () => {
+    let token: string;
+
+    beforeAll(async () => {
+        token = await getToken('admin', 'p');
+    });
+
+    test('Vorhandenen Fussballer aendern', async () => {
+        // given
+        const url = `${restURL}/${idVorhanden}`;
+        const headers = new Headers();
+        headers.set(CONTENT_TYPE, APPLICATION_JSON);
+        headers.set(AUTHORIZATION, `${BEARER} ${token}`);
+        headers.set(IF_MATCH, '"0"');
+
+        // when
+        const response = await fetch(url, {
+            method: PUT,
+            headers,
+            body: JSON.stringify(geaenderterFussballer),
+        });
+
+        // then
+        const { status } = response;
+
+        expect(status).toBe(204);
+        expect(response.headers.get(ETAG)).toBe('"1"');
+
+        const body = await response.text();
+        expect(body).toBe('');
+    });
+})
