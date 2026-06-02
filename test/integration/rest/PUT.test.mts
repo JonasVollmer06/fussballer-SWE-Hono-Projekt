@@ -75,4 +75,25 @@ describe('PUT /rest/:id', () => {
         const body = await response.text();
         expect(body).toBe('');
     });
+
+    test('Update fuer unbekannte Fussballer-ID liefert Not Found', async () => {
+        // given
+        const url = `${restURL}/${idNichtVorhanden}`;
+        const headers = new Headers();
+        headers.set(CONTENT_TYPE, APPLICATION_JSON);
+        headers.set(AUTHORIZATION, `${BEARER} ${token}`);
+        headers.set(IF_MATCH, '"0"');
+
+        // when
+        const response = await fetch(url, {
+            method: PUT,
+            headers,
+            body: JSON.stringify(fussballerFuerNichtVorhandeneId),
+        });
+
+        // then
+        const { status } = response;
+
+        expect(status).toBe(404);
+    });
 })
