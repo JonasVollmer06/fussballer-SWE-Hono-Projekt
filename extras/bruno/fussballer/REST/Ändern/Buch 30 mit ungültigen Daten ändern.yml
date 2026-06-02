@@ -1,0 +1,59 @@
+info:
+  name: Fussballer 40 mit ungültigen Daten ändern
+  type: http
+  seq: 6
+
+http:
+  method: PUT
+  url: "{{restUrl}}/:id"
+  headers:
+    - name: If-Match
+      value: '"0"'
+  params:
+    - name: id
+      value: "40"
+      type: path
+  body:
+    type: json
+    data: |-
+      {
+        "nachname": "",
+        "nationalitaet": "Deutschland",
+        "position": "MITTELFELDSPIELER",
+        "geburtsdatum": "2004-05-14"
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test('Fehlermeldungen im Response Body', () => {
+          const { detail } = res.getBody();
+
+          expect(detail).to.be.an('array').that.has.a.lengthOf(1);
+          expect(detail[0].path[0]).to.be.equal('nachname');
+        });
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "422"
+    - expression: res.headers['content-type']
+      operator: eq
+      value: application/problem+json
+    - expression: res.body.statusCode
+      operator: eq
+      value: "422"
+    - expression: res.body.title
+      operator: eq
+      value: Unprocessable Content
+    - expression: res.body.detail
+      operator: isArray
+    - expression: res.body.detail
+      operator: isNotEmpty
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

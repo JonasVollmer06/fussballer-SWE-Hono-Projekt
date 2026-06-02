@@ -1,0 +1,68 @@
+info:
+  name: Neuer Fussballer mit ungültigen Daten
+  type: http
+  seq: 3
+
+http:
+  method: POST
+  url: "{{restUrl}}"
+  headers:
+    - name: ""
+      value: ""
+      disabled: true
+  body:
+    type: json
+    data: |-
+      {
+        "nachname": "",
+        "nationalitaet": "Deutschland",
+        "position": "MITTELFELDSPIELER",
+        "geburtsdatum": "2004-05-14",
+        "username": "hannes",
+        "adresse": {
+          "plz": "76133",
+          "ort": "Karlsruhe",
+          "bundesland": "BW"
+        },
+        "auszeichnungen": [
+          {
+            "bezeichnung": "Spieler des Monats",
+            "saison": "2025/2026"
+          }
+        ]
+      }
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: tests
+      code: |-
+        test('Fehlermeldungen im Response Body', () => {
+          const { detail } = res.getBody();
+
+          expect(detail).to.be.an('array').that.has.a.lengthOf(1);
+          expect(detail[0].path[0]).to.be.equal('nachname');
+        });
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "422"
+    - expression: res.headers['content-type']
+      operator: eq
+      value: application/problem+json
+    - expression: res.body
+      operator: isJson
+    - expression: res.body
+      operator: isNotEmpty
+    - expression: res.body.statusCode
+      operator: eq
+      value: "422"
+    - expression: res.body.title
+      operator: eq
+      value: Unprocessable Content
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

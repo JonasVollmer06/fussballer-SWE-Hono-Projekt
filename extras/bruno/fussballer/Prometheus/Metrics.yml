@@ -1,0 +1,34 @@
+info:
+  name: Metrics
+  type: http
+  seq: 1
+
+http:
+  method: GET
+  url: "{{prometheusUrl}}"
+  headers:
+    - name: Accept
+      value: text/plain
+  auth: inherit
+
+runtime:
+  scripts:
+    - type: after-response
+      code: |-
+        test('Statuscode 200', () => {
+            expect(res.getStatus()).to.equal(200);
+        });
+        test('Body ueberpruefen', () => {
+            const body = JSON.stringify(res.getBody());
+            expect(body).not.to.be.empty;
+        });
+  assertions:
+    - expression: res.status
+      operator: eq
+      value: "200"
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
