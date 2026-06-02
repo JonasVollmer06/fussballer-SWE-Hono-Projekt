@@ -1,3 +1,5 @@
+// oxlint-disable max-lines-per-function
+
 import {
     APPLICATION_JSON,
     AUTHORIZATION,
@@ -95,4 +97,43 @@ describe('POST /rest', () => {
         expect(idStr).toBeDefined();
         expect(FussballerService.ID_PATTERN.test(idStr ?? '')).toBe(true);
     });
-})
+
+    test('Neuen Fussballer mit ungueltigen Daten nicht anlegen', async () => {
+        // given
+        const headers = new Headers();
+        headers.set(CONTENT_TYPE, APPLICATION_JSON);
+        headers.set(AUTHORIZATION, `${BEARER} ${token}`);
+
+        const expectedPaths = [
+            'nachname',
+            'nationalitaet',
+            'position',
+            'geburtsdatum',
+            'username',
+        ];
+
+        // when
+        const response = await fetch(restURL, {
+            method: POST,
+            headers,
+            body: JSON.stringify(neuerFussballerInvalid),
+        });
+
+        // then
+        const { status } = response;
+
+        expect(status).toBe(422);
+
+        const body = (await response.json()) as ProblemDetails;
+        const validationIssues = body.detail as ValidationIssue[];
+
+        expect(validationIssues).toHaveLength(expectedPaths.length);
+
+        const paths = validationIssues.flatMap(({ path }) => {
+            const field = path.at(0);
+            return typeof field === 'string' ? [field] : [];
+        });
+
+        expect(paths).toStrictEqual(expect.arrayContaining(expectedPaths));
+    });
+});
