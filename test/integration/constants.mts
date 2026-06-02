@@ -22,3 +22,4 @@ export const AUTHORIZATION = 'Authorization';
 export const APPLICATION_JSON = 'application/json';
 export const X_WWW_FORM_URL_ENCODED = 'application/x-www-form-urlencoded';
 export const BEARER = 'Bearer';
+export const ETAG = 'ETag';
