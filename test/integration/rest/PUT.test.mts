@@ -28,4 +28,10 @@ const geaenderterFussballer: FussballerUpdateType = {
 };
 const idVorhanden = 20;
 
-
+const fussballerFuerNichtVorhandeneId: FussballerUpdateType = {
+    nachname: 'Nichtvorhanden',
+    nationalitaet: 'Deutsch',
+    position: 'STUERMER',
+    geburtsdatum: new Date('2000-01-01'),
+};
+const idNichtVorhanden = 9999;
