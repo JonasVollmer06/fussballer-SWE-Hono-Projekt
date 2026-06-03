@@ -13,7 +13,7 @@ concurrency:
 
 jobs:
   quality:
-    name: Format
+    name: Format, lint, typecheck, test
     runs-on: ubuntu-latest
 
     steps:
@@ -33,6 +33,8 @@ jobs:
           DATABASE_URL: postgresql://fussballer:p@localhost:5432/fussballer?schema=fussballer
         run: bunx prisma generate
 
+      - name: Typecheck
+        run: bun run tsc
       - name: oxfmt
         run: bun run fmt:check
 
@@ -40,4 +42,4 @@ jobs:
         run: bun run lint src/fussballer
 
       - name: vitest
-        run: bun run test -- --run --passWithNoTests
+        run: bun run test -- --run --passWithNoTests --project unit
