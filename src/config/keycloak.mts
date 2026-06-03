@@ -58,9 +58,7 @@ if (typeof keycloak === 'object') {
         keycloak.issuerExternal !== undefined &&
         typeof keycloak.issuerExternal !== 'string'
     ) {
-        throw new TypeError(
-            'Der externe Issuer fuer Keycloak ist kein String',
-        );
+        throw new TypeError('Der externe Issuer fuer Keycloak ist kein String');
     }
 }
 
