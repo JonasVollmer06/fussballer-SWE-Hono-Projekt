@@ -1,9 +1,9 @@
 import { paths } from '../../src/config/paths.mts';
 import { serverConfig } from '../../src/config/server.mts';
 
-const { host, port } = serverConfig;
+const { port } = serverConfig;
 
-export const baseURL = `https://${host}:${port}`;
+export const baseURL = `https://localhost:${port}`;
 export const restURL = `${baseURL}/rest`;
 
 export const tokenPath = `${paths.auth}${paths.token}`;
