@@ -25,7 +25,7 @@ include:
 
 # https://docs.docker.com/reference/compose-file/services
 services:
-  buch:
+  fussballer:
     image: juergenzimmermann/fussballer:2026.4.1-hardened
     #image: juergenzimmermann/buch:2026.4.1-trixie
     #image: juergenzimmermann/buch:2026.4.1-alpine
