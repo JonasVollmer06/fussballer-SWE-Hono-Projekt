@@ -70,7 +70,7 @@ describe('FussballerService findById', () => {
 
         // act / assert
         await expect(service.findById({ id })).rejects.toThrow(
-            `Es gibt keinen Fussballer mit der ID ${id}.`,
+            `Kein Fussballer mit der ID ${id} gefunden.`,
         );
     });
 });

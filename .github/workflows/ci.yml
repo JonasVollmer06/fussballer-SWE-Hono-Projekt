@@ -39,5 +39,5 @@ jobs:
       - name: oxlint
         run: bun run lint src/fussballer
 
-      # - name: vitest
-      #   run: bun run test -- --run --passWithNoTests
+      - name: vitest
+        run: bun run test -- --run --passWithNoTests
